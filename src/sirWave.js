@@ -1,7 +1,7 @@
 export default class SirWave {
     constructor(opt){
         this.opt = opt || {};
-
+		this.dpr = window.devicePixelRatio || 1;
         this.K = 2;
         this.F = 2;
         this.speed = this.opt.speed || 0.1;
@@ -15,9 +15,8 @@ export default class SirWave {
 			[1, 'rgba(74, 74, 74, 0.5)', 2],
 		];
 
-        if (!devicePixelRatio) devicePixelRatio = 1;
-        this.width = devicePixelRatio * (this.opt.width || 320);
-        this.height = devicePixelRatio * (this.opt.height || 100);
+        this.width = this.dpr * (this.opt.width || 320);
+        this.height = this.dpr * (this.opt.height || 100);
         this.MAX = (this.height/2)-4;
 
 		if(this.opt.ctx){
@@ -26,19 +25,19 @@ export default class SirWave {
 			this.canvas = document.createElement('canvas');
 			this.canvas.width = this.width;
 			this.canvas.height = this.height;
-			this.canvas.style.width = (this.width/devicePixelRatio)+'px';
-			this.canvas.style.height = (this.height/devicePixelRatio)+'px';
+			this.canvas.style.width = (this.width/this.dpr)+'px';
+			this.canvas.style.height = (this.height/this.dpr)+'px';
 			(this.opt.container || document.body).appendChild(this.canvas);
 			this.ctx = this.canvas.getContext('2d');
 		}
         this.run = false;
     }
 
-    _globalAttenuationFn=(x)=>{
+    _globalAttenuationFn(x){
 		return Math.pow(this.K*4/(this.K*4+Math.pow(x,4)),this.K*2);
 	}
 
-	_drawLine=(attenuation, color, width)=>{
+	_drawLine(attenuation, color, width){
 		this.ctx.moveTo(0,0);
 		this.ctx.beginPath();
 		this.ctx.strokeStyle = color;
@@ -62,13 +61,13 @@ export default class SirWave {
 		});
 	}
 
-	_clear=()=>{
+	_clear(){
 		this.ctx.globalCompositeOperation = 'destination-out';
 		this.ctx.fillRect(0, 0, this.width, this.height);
 		this.ctx.globalCompositeOperation = 'source-over';
 	}
 
-	_draw=()=>{
+	_draw(){
 		if (!this.run) return;
 
 		this.phase = (this.phase+this.speed)%(Math.PI*64);
@@ -83,29 +82,29 @@ export default class SirWave {
 
 	
 
-	start=()=>{
+	start(){
 		this.run = true;
 		this._draw();
 	}
 
-	stop=()=>{
+	stop(){
 		this.run = false;
 		this._clear();
 	}
 
-	pause=()=>{
+	pause(){
 		this.run = false;
 	}
 
-	setNoise=(v)=>{
+	setNoise(v){
 		this.noise = Math.min(v, 1)*this.MAX;
 	}
 
-	setSpeed=(v)=>{
+	setSpeed(v){
 		this.speed = v;
 	}
 
-	set=(noise, speed)=>{
+	set(noise, speed){
 		this.setNoise(noise);
 		this.setSpeed(speed);
 	}

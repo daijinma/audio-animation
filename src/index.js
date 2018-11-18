@@ -8,19 +8,13 @@
 
 export default class auduoMap {
     constructor(params){
-        if(!params.el){
-            throw Error("el is required!")
-        }
 
         Object.assign(this, params)
         
         this.initlize(this.url);
 
         this.SW = new SirWave({
-            ctx: this.ctx,
-            width: this.width,
-            height: this.height,
-            lines:this.lines           
+            ...params       
         })
         this.SW.setSpeed(0.2);
         
@@ -44,25 +38,31 @@ export default class auduoMap {
 
     // 初始化场景
     initlize(url){
-        let canvas = this.el;
-        this.ctx = this.ctx = canvas.getContext("2d");
-
         let audio = this.audio = new Audio(url);
         audio.crossOrigin = "anonymous";
 
         this.audio.onended = ()=>{
             this.SW.pause();
+
+            this.onended && this.onended();
         }
 
     }
 
-    resize(){
-        this.SW.width = 200;
-        this.SW.height = 100;
-        this.width = 200;
-        this.height = 100;
-        this.SW.phase = 0;
+    resize(width, height){
+        let phase= this.SW.phase
+        this.SW.width = width;
+        this.SW.height = height;
+
+        this.SW.canvas.setAttribute('width', width);
+        this.SW.canvas.setAttribute('height', height);
+
+        this.SW.canvas.style.width = (width)+"px";
+        this.SW.canvas.style.height = (height)+"px";
         this.SW._clear();
-        this.SW.drawOnePage();
+        if(!this.SW.run){
+            this.SW.drawOnePage();
+        }
+        this.SW.phase = phase;
     }
 }
