@@ -41,112 +41,133 @@
     return obj;
   }
 
-  var SirWave = function SirWave(opt) {
-    var _this = this;
+  var SirWave =
+  /*#__PURE__*/
+  function () {
+    function SirWave(opt) {
+      var _this = this;
 
-    _classCallCheck(this, SirWave);
+      _classCallCheck(this, SirWave);
 
-    _defineProperty(this, "_globalAttenuationFn", function (x) {
-      return Math.pow(_this.K * 4 / (_this.K * 4 + Math.pow(x, 4)), _this.K * 2);
-    });
-
-    _defineProperty(this, "_drawLine", function (attenuation, color, width) {
-      _this.ctx.moveTo(0, 0);
-
-      _this.ctx.beginPath();
-
-      _this.ctx.strokeStyle = color;
-      _this.ctx.lineWidth = width || 1;
-      var x, y;
-
-      for (var i = -_this.K; i <= _this.K; i += 0.01) {
-        x = _this.width * ((i + _this.K) / (_this.K * 2));
-        y = _this.height / 2 + _this.noise * _this._globalAttenuationFn(i) * (1 / attenuation) * Math.sin(_this.F * i - _this.phase);
-
-        _this.ctx.lineTo(x, y);
-      }
-
-      _this.ctx.stroke();
-    });
-
-    _defineProperty(this, "_clear", function () {
-      _this.ctx.globalCompositeOperation = 'destination-out';
-
-      _this.ctx.fillRect(0, 0, _this.width, _this.height);
-
-      _this.ctx.globalCompositeOperation = 'source-over';
-    });
-
-    _defineProperty(this, "_draw", function () {
-      if (!_this.run) return;
-      _this.phase = (_this.phase + _this.speed) % (Math.PI * 64);
-
-      _this._clear();
-
-      _this.lines.forEach(function (line) {
-        _this._drawLine.apply(_this, line);
+      _defineProperty(this, "_globalAttenuationFn", function (x) {
+        return Math.pow(_this.K * 4 / (_this.K * 4 + Math.pow(x, 4)), _this.K * 2);
       });
 
-      requestAnimationFrame(_this._draw.bind(_this), 1000);
-    });
+      _defineProperty(this, "_drawLine", function (attenuation, color, width) {
+        _this.ctx.moveTo(0, 0);
 
-    _defineProperty(this, "start", function () {
-      _this.phase = 0;
-      _this.run = true;
+        _this.ctx.beginPath();
 
-      _this._draw();
-    });
+        _this.ctx.strokeStyle = color;
+        _this.ctx.lineWidth = width || 1;
+        var x, y;
 
-    _defineProperty(this, "stop", function () {
-      _this.run = false;
+        for (var i = -_this.K; i <= _this.K; i += 0.01) {
+          x = _this.width * ((i + _this.K) / (_this.K * 2));
+          y = _this.height / 2 + _this.noise * _this._globalAttenuationFn(i) * (1 / attenuation) * Math.sin(_this.F * i - _this.phase);
 
-      _this._clear();
-    });
+          _this.ctx.lineTo(x, y);
+        }
 
-    _defineProperty(this, "pause", function () {
-      _this.run = false;
-    });
+        _this.ctx.stroke();
+      });
 
-    _defineProperty(this, "setNoise", function (v) {
-      _this.noise = Math.min(v, 1) * _this.MAX;
-    });
+      _defineProperty(this, "_clear", function () {
+        _this.ctx.globalCompositeOperation = 'destination-out';
 
-    _defineProperty(this, "setSpeed", function (v) {
-      _this.speed = v;
-    });
+        _this.ctx.fillRect(0, 0, _this.width, _this.height);
 
-    _defineProperty(this, "set", function (noise, speed) {
-      _this.setNoise(noise);
+        _this.ctx.globalCompositeOperation = 'source-over';
+      });
 
-      _this.setSpeed(speed);
-    });
+      _defineProperty(this, "_draw", function () {
+        if (!_this.run) return;
+        _this.phase = (_this.phase + _this.speed) % (Math.PI * 64);
 
-    this.opt = opt || {};
-    this.K = 2;
-    this.F = 2;
-    this.speed = this.opt.speed || 0.1;
-    this.noise = this.opt.noise || 0;
-    this.phase = this.opt.phase || 0;
-    this.lines = this.opt.lines || [[-2, 'rgba(255,255,255, 0.1)'], [-6, 'rgba(255,255,255,0.2)'], [4, 'rgba(255,255,255,0.4)'], [2, 'rgba(255,255,255,0.6)'], [1, 'rgba(255,255,255,1)', 1.5]];
-    if (!devicePixelRatio) devicePixelRatio = 1;
-    this.width = devicePixelRatio * (this.opt.width || 320);
-    this.height = devicePixelRatio * (this.opt.height || 100);
-    this.MAX = this.height / 2 - 4;
+        _this._clear();
 
-    if (this.opt.ctx) {
-      this.ctx = this.opt.ctx;
-    } else {
-      this.canvas = document.createElement('canvas');
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
-      this.canvas.style.width = this.width / devicePixelRatio + 'px';
-      this.canvas.style.height = this.height / devicePixelRatio + 'px';
-      (this.opt.container || document.body).appendChild(this.canvas);
-      this.ctx = this.canvas.getContext('2d');
+        _this.lines.forEach(function (line) {
+          _this._drawLine.apply(_this, line);
+        });
+
+        requestAnimationFrame(_this._draw.bind(_this), 1000);
+      });
+
+      _defineProperty(this, "start", function () {
+        _this.run = true;
+
+        _this._draw();
+      });
+
+      _defineProperty(this, "stop", function () {
+        _this.run = false;
+
+        _this._clear();
+      });
+
+      _defineProperty(this, "pause", function () {
+        _this.run = false;
+      });
+
+      _defineProperty(this, "setNoise", function (v) {
+        _this.noise = Math.min(v, 1) * _this.MAX;
+      });
+
+      _defineProperty(this, "setSpeed", function (v) {
+        _this.speed = v;
+      });
+
+      _defineProperty(this, "set", function (noise, speed) {
+        _this.setNoise(noise);
+
+        _this.setSpeed(speed);
+      });
+
+      this.opt = opt || {};
+      this.K = 2;
+      this.F = 2;
+      this.speed = this.opt.speed || 0.1;
+      this.noise = this.opt.noise || 0;
+      this.phase = this.opt.phase || 0;
+      this.lines = this.opt.lines || [[-2, 'rgba(74, 74, 74, 0.2)', 1], [-6, 'rgba(74, 74, 74, 0.4)', 1], [4, 'rgba(74, 74, 74, 0.5)', 1], [2, 'rgba(74, 74, 74, 0.6)', 1], [1, 'rgba(74, 74, 74, 0.5)', 2]];
+      if (!devicePixelRatio) devicePixelRatio = 1;
+      this.width = devicePixelRatio * (this.opt.width || 320);
+      this.height = devicePixelRatio * (this.opt.height || 100);
+      this.MAX = this.height / 2 - 4;
+
+      if (this.opt.ctx) {
+        this.ctx = this.opt.ctx;
+      } else {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        this.canvas.style.width = this.width / devicePixelRatio + 'px';
+        this.canvas.style.height = this.height / devicePixelRatio + 'px';
+        (this.opt.container || document.body).appendChild(this.canvas);
+        this.ctx = this.canvas.getContext('2d');
+      }
+
+      this.run = false;
     }
 
-    this.run = false;
-  };
+    _createClass(SirWave, [{
+      key: "drawOnePage",
+      value: function drawOnePage() {
+        var _this2 = this;
+
+        this.run = true;
+        this.phase = Math.random() * 10;
+
+        this._draw();
+
+        requestAnimationFrame(function () {
+          _this2.run = false;
+        });
+      }
+    }]);
+
+    return SirWave;
+  }();
 
   var auduoMap =
   /*#__PURE__*/
@@ -167,8 +188,8 @@
         lines: this.lines
       });
       this.SW.setSpeed(0.2);
-      this.SW.start();
       this.SW.setNoise(0.2);
+      this.SW.drawOnePage();
     }
 
     _createClass(auduoMap, [{
@@ -176,78 +197,33 @@
       value: function play() {
         if (this.audio.paused) {
           this.audio.play();
+          this.SW.start();
         } else {
           this.audio.pause();
+          this.SW.pause();
         }
       }
     }, {
       key: "destroy",
       value: function destroy() {
         this.audio.pause();
+        this.SW.pause();
       } // 初始化场景
 
     }, {
       key: "initlize",
       value: function initlize(url) {
+        var _this = this;
+
         var canvas = this.el;
         this.ctx = this.ctx = canvas.getContext("2d");
         var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         var audio = this.audio = new Audio(url);
         audio.crossOrigin = "anonymous";
-        this.source = audioCtx.createMediaElementSource(audio);
-        this.analyser = audioCtx.createAnalyser(); //连接：source → analyser → destination
 
-        this.source.connect(this.analyser);
-        this.analyser.connect(audioCtx.destination);
-        this.bufferLength = 360;
-      }
-    }, {
-      key: "playFun",
-      value: function playFun() {}
-    }, {
-      key: "drawColumn",
-      value: function drawColumn(ctx, output) {
-        ctx.clearRect(0, 0, this.width, this.height);
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        var bufferLength = this.bufferLength;
-        var barWidth = this.width / bufferLength * 2.5;
-        var barHeight;
-        var x = 0;
-
-        for (var i = 0; i < bufferLength; i++) {
-          barHeight = output[i] / 2;
-          ctx.fillStyle = '#000';
-          ctx.fillRect(x, this.height - barHeight / 2, barWidth, barHeight);
-          x += barWidth + 1;
-        }
-      }
-    }, {
-      key: "drawCircle",
-      value: function drawCircle(ctx, output) {
-        var r = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
-        ctx.clearRect(0, 0, this.width, this.height); //画线条
-
-        var centerX = this.width / 2;
-        var centerY = this.height / 2;
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.moveTo(centerX, centerY);
-
-        for (var i = 0; i < 360; i++) {
-          var value = output[i]; //<===获取数据
-          //R * cos (PI/180*一次旋转的角度数) ,-R * sin (PI/180*一次旋转的角度数)
-
-          ctx.lineTo(Math.cos(i * 1 / 180 * Math.PI) * (r + value) + centerX, -Math.sin(i * 1 / 180 * Math.PI) * (r + value) + centerY);
-        }
-
-        ctx.stroke(); //画一个小圆，将线条覆盖
-        // ctx.beginPath();
-        // ctx.lineWidth = 1;
-        // ctx.arc(centerX, centerY, r, 0, 2 * Math.PI, false);
-        // ctx.fillStyle = "#fff";
-        // ctx.stroke();
-        // ctx.fill();
+        this.audio.onended = function () {
+          _this.SW.pause();
+        };
       }
     }]);
 

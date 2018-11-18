@@ -8,11 +8,11 @@ export default class SirWave {
         this.noise = this.opt.noise || 0;
         this.phase = this.opt.phase || 0;
         this.lines = this.opt.lines || [
-			[-2, 'rgba(255,255,255, 0.1)'],
-			[-6, 'rgba(255,255,255,0.2)'],
-			[4, 'rgba(255,255,255,0.4)'],
-			[2, 'rgba(255,255,255,0.6)'],
-			[1, 'rgba(255,255,255,1)', 1.5],
+			[-2, 'rgba(74, 74, 74, 0.2)', 1],
+			[-6, 'rgba(74, 74, 74, 0.4)', 1],
+			[4, 'rgba(74, 74, 74, 0.5)', 1],
+			[2, 'rgba(74, 74, 74, 0.6)', 1],
+			[1, 'rgba(74, 74, 74, 0.5)', 2],
 		];
 
         if (!devicePixelRatio) devicePixelRatio = 1;
@@ -52,6 +52,15 @@ export default class SirWave {
 		this.ctx.stroke();
 	}
 
+	drawOnePage(){
+		this.run = true;
+		this.phase = Math.random()*10;
+		this._draw()
+		requestAnimationFrame(()=>{
+			this.run = false;
+		});
+	}
+
 	_clear=()=>{
 		this.ctx.globalCompositeOperation = 'destination-out';
 		this.ctx.fillRect(0, 0, this.width, this.height);
@@ -72,7 +81,6 @@ export default class SirWave {
 	}
 
 	start=()=>{
-		this.phase = 0;
 		this.run = true;
 		this._draw();
 	}

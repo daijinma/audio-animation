@@ -5,28 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+    
+        a{cursor: pointer;}
+    </style>
 </head>
 <body>
     <div id="app">
         <canvas id="canvas" height="300" width="600"></canvas>
+        <canvas id="canvas2" height="300" width="600"></canvas>
     </div>
     <script src="./bundle.js"></script>
     
     <a onClick=play()>play()</a>  
     
     <a onClick=destroy()>destroy()</a>  
+    ------
+    <a onClick=play2()>play2()</a>  
+    
+    <a onClick=destroy2()>destroy2()</a>  
     <script>
         var am = new AudioMap({
             el: document.querySelector("#canvas"),
-            width: 600,
-            height:300,
+            width: 260,
+            height:230,
             url:"./SuperMario.mp3",
             lines: [
-                [-2, 'rgba(0,0,0, 0.1)'],
-                [-6, 'rgba(0,0,0,0.2)'],
-                [4, 'rgba(0,0,0,0.4)'],
-                [2, 'rgba(0,0,0,0.6)'],
-                [1, 'rgba(0,0,0,1)', 1],
+                [-2, 'rgba(74, 74, 74, 0.2)', 1],
+                [-6, 'rgba(74, 74, 74, 0.4)', 1],
+                [4, 'rgba(74, 74, 74, 0.5)', 1],
+                [2, 'rgba(74, 74, 74, 0.6)', 1],
+                [1, 'rgba(74, 74, 74, 0.5)', 2],
+            ] 
+        });
+
+        var am2 = new AudioMap({
+            el: document.querySelector("#canvas2"),
+            width: 600,
+            height:300,
+            url:"http://cdn.inyuapp.com/audios/20181112150440w9srJD.m4a",
+            lines: [
+                [-2, 'rgba(173,173,173, 0.4)'],
+                [-6, 'rgba(173,173,173, 0.6)'],
+                [4, 'rgba(173,173,173, 0.8)'],
+                [2, 'rgba(173,173,173, 1)'],
+                [1, '#adadad', 2],
             ] 
         });
         // am.load("http://cdn.inyuapp.com/audios/20181112150440w9srJD.m4a");
@@ -38,6 +61,13 @@
         }
         function destroy(){
             am.destroy()
+        }
+
+        function play2(){
+            am2.play()
+        }
+        function destroy2(){
+            am2.destroy()
         }
     </script>
 </body>
