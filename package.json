@@ -1,0 +1,25 @@
+{
+  "name": "audio-view",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "daijinma",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node_modules/.bin/rollup -w -c ./rollup.config.js",
+    "build": "node_modules/.bin/rollup -c ./rollup.config.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "rollup": "^0.67.1",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-serve": "^0.6.0"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0"
+  }
+}
