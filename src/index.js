@@ -47,7 +47,6 @@ export default class auduoMap {
         let canvas = this.el;
         this.ctx = this.ctx = canvas.getContext("2d");
 
-        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let audio = this.audio = new Audio(url);
         audio.crossOrigin = "anonymous";
 
@@ -55,5 +54,15 @@ export default class auduoMap {
             this.SW.pause();
         }
 
+    }
+
+    resize(){
+        this.SW.width = 200;
+        this.SW.height = 100;
+        this.width = 200;
+        this.height = 100;
+        this.SW.phase = 0;
+        this.SW._clear();
+        this.SW.drawOnePage();
     }
 }

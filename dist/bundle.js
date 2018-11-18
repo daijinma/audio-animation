@@ -155,13 +155,14 @@
       value: function drawOnePage() {
         var _this2 = this;
 
+        var runing = this.run;
         this.run = true;
-        this.phase = Math.random() * 10;
+        this.phase = this.phase == 0 ? Math.random() * 10 : this.phase;
 
         this._draw();
 
         requestAnimationFrame(function () {
-          _this2.run = false;
+          _this2.run = runing;
         });
       }
     }]);
@@ -217,13 +218,25 @@
 
         var canvas = this.el;
         this.ctx = this.ctx = canvas.getContext("2d");
-        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         var audio = this.audio = new Audio(url);
         audio.crossOrigin = "anonymous";
 
         this.audio.onended = function () {
           _this.SW.pause();
         };
+      }
+    }, {
+      key: "resize",
+      value: function resize() {
+        this.SW.width = 200;
+        this.SW.height = 100;
+        this.width = 200;
+        this.height = 100;
+        this.SW.phase = 0;
+
+        this.SW._clear();
+
+        this.SW.drawOnePage();
       }
     }]);
 

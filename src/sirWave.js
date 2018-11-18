@@ -53,11 +53,12 @@ export default class SirWave {
 	}
 
 	drawOnePage(){
+		let runing = this.run;
 		this.run = true;
-		this.phase = Math.random()*10;
+		this.phase = this.phase==0?Math.random()*10:this.phase;
 		this._draw()
 		requestAnimationFrame(()=>{
-			this.run = false;
+			this.run = runing;
 		});
 	}
 
@@ -79,6 +80,8 @@ export default class SirWave {
 
 		requestAnimationFrame(this._draw.bind(this), 1000);
 	}
+
+	
 
 	start=()=>{
 		this.run = true;
