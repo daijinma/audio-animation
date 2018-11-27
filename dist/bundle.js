@@ -242,8 +242,8 @@
       key: "resize",
       value: function resize(width, height) {
         var phase = this.SW.phase;
-        this.SW.width = width;
-        this.SW.height = height;
+        this.SW.width = width * 2;
+        this.SW.height = height * 2;
         this.SW.canvas.setAttribute('width', width * 2);
         this.SW.canvas.setAttribute('height', height * 2);
         this.SW.canvas.style.width = width + "px";
