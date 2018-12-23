@@ -39,7 +39,7 @@ export default class auduoMap {
     // 初始化场景
     initlize(url){
         let audio = this.audio = new Audio(url);
-        audio.crossOrigin = "anonymous";
+        //audio.crossOrigin = "anonymous";
 
         this.audio.onended = ()=>{
             this.SW.pause();

@@ -229,8 +229,7 @@
       value: function initlize(url) {
         var _this = this;
 
-        var audio = this.audio = new Audio(url);
-        audio.crossOrigin = "anonymous";
+        var audio = this.audio = new Audio(url); //audio.crossOrigin = "anonymous";
 
         this.audio.onended = function () {
           _this.SW.pause();
